@@ -5,7 +5,7 @@ import ShowMIlktea from "./Components/ShowMIlktea";
 import Cart from "./Components/Cart";
 import History from "./Components/History";
 import Orders from "./Components/Orders";
-
+import UserAcount from "./Components/UserAccount"
 const routers = createBrowserRouter([
     {
         path: '/',
@@ -26,6 +26,10 @@ const routers = createBrowserRouter([
             {
                 path: '/history',
                 element: <History/>
+            },
+            {
+                path: '/user',
+                element: <UserAcount/>
             },
         ]
     }

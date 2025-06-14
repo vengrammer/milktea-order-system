@@ -21,13 +21,17 @@ function HomeLayout() {
             {/* Right section: User / Auth Links + Hamburger */}
             <div className="flex items-center space-x-4">
               {token ? (
-                <Link
-                  to="/user"
-                  className="flex text-white font-semibold hover:text-gray-200 transition"
-                >
-                  <button className="text-2xl pr-3">User</button>
-                  <img className="w-10 h-10"  src={setings} alt="icon" />
-                </Link>
+                <>
+                  <div
+                    className="flex text-white font-semibold transition"
+                  >
+                    <Link className=" mr-6 flex text-2xl hover:cursor-pointer" to='/user'><img className="w-9 h-9"  src={setings} alt="icon" /> Gerona Reven </Link>
+                    <form action="">
+                      <button className="bg-red-500  text-2xl pr-3 pl-3 rounded hover:cursor-pointer">Log out</button>
+                    </form>
+                    
+                  </div>
+                </>
               ) : (
                 <>
                   <button className="text-white">Login</button>
