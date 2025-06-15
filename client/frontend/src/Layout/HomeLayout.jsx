@@ -5,7 +5,7 @@ import setings from "../assets/account-settings.png"
 
 function HomeLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [token, setToken] = useState(true);
+  const [token, setToken] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -34,8 +34,10 @@ function HomeLayout() {
                 </>
               ) : (
                 <>
-                  <button className="text-white">Login</button>
-                  <button className="text-white">Sign Up</button>
+                <div className="grid sm:grid-cols-1 md:grid-cols-2">
+                    <Link className="text-white bg-blue-600 hover:bg-blue-700 py-1 px-3 text-sm mb-1 rounded sm:py-1 sm:px-5 sm:text-[15px] md:py-2 md:px-5 md:text-xl mr-3"to="/login">Login</Link>
+                    <Link  className="text-white bg-blue-600 hover:bg-blue-700 py-1 px-3 text-sm mb-1 rounded sm:py-1 sm:px-5 sm:text-[15px] md:py-2 md:px-5 md:text-xl mr-3" to="/signup">Signup</Link>  
+                </div>
                 </>
               )}
 
