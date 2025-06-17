@@ -5,7 +5,7 @@ import setings from "../assets/account-settings.png"
 
 function HomeLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [token, setToken] = useState(false);
+  const [token, setToken] = useState(true);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -96,7 +96,7 @@ function HomeLayout() {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-grow bg-gray-100">
+      <main className="flex-grow bg-gray-100 transition">
         <Outlet />
       </main>
     </div>

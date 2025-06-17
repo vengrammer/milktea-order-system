@@ -60,8 +60,8 @@ function signup() {
 
             <p className="mt-4 text-center text-sm text-gray-600">
               Already have an acount?{" "}
-              <Link to="/login" className="text-green-600 hover:underline">
-                Sign up
+              <Link to="/login" className="text-blue-600 hover:underline">
+                Login
               </Link>
             </p>
           </form>
