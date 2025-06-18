@@ -1,40 +1,38 @@
-import chocolate from "../assets/Dark chocolate.png"
+
 function Orders(){
     return(
-        <>
-          <div className="flex flex-col md:flex-row items-center justify-between max-w-screen px-5 my-8">
-             <h1 className="text-3xl font-bold text-center md:text-left mb-4 md:mb-0">
-               My Milktea Orders
-             </h1>
-           </div>
-       
-             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center px-4 ">
-               {/* Dark Chocolate */}
-               <div className="bg-white shadow-lg rounded-2xl overflow-hidden w-[260px] max-w-sm p-4 hover:shadow-xl transition-shadow">
-                 <img
-                   src={chocolate}
-                   alt="Dark Chocolate"
-                   className="w-full h-48 object-cover rounded-lg"
-                 />
-                 <div className="mt-4">
-                   <h2 className="text-xl font-semibold text-gray-800">Dark Chocolate</h2>
-                   <p className="text-gray-600 mt-2">Size: <span>Large</span></p>
-                    <p className="text-gray-600 mt-2">Item: <span>2</span></p>
-                    <p className="text-gray-600 mt-2">Amount: <span>200</span></p>
-                    <p className="text-gray-600 mt-2">Status: <span>Pending</span></p>
-                   
-                   <div className="mt-4 space-y-2">
-                     <button className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-                       Edit order
-                     </button>
-                     <button className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
-                       Cancel Order
-                     </button>
-                   </div>
-                 </div>
-               </div>
-       
-             </div>
-           </>)
+         <div className="w-full-screen">
+            <div className="w-full-screen max-h-screen h-full sm:w-full md:w-200 lg:w-300 bg-gray-300 m-auto sm:rounded-2xl text-center p-2 mt-10" >
+                <h1 className="text-4xl font-bold">Orders</h1>
+                <div className="flex bg-gray-200 rounded sm:text-xl m-5 p-5 justify-center">
+                    <h1 className="pr-4 font-semibold" >Flavor: <span className="text-green-900">Macha</span></h1>
+                    <h1 className="pr-4 font-semibold" >Size: <span className="text-green-900">Large</span></h1>
+                    <h1 className="pr-4 font-semibold" >Item: <span className="text-green-900">3</span></h1>
+                    <h1 className="pr-4 font-semibold" >Amount: <span className="text-green-900">200</span></h1>
+                    <h1 className="pr-4 font-semibold" >Status: <span className="text-blue-900">Pending</span></h1>
+                    <button className="text-white bg-blue-500 hover:bg-blue-600 hover:cursor-pointer py-2 px-3 rounded-xl">Edit</button>
+                    <button className="text-white bg-red-500  hover:bg-red-600 hover:cursor-pointer px-3 rounded-xl">Cancel</button>
+                </div>
+
+                <div className="flex bg-gray-200 rounded sm:text-xl m-5 p-5 justify-center">
+                    <h1 className="pr-4 font-semibold" >Flavor: <span className="text-green-900">Macha</span></h1>
+                    <h1 className="pr-4 font-semibold" >Size: <span className="text-green-900">Large</span></h1>
+                    <h1 className="pr-4 font-semibold" >Item: <span className="text-green-900">3</span></h1>
+                    <h1 className="pr-4 font-semibold" >Amount: <span className="text-green-900">200</span></h1>
+                    <h1 className="pr-4 font-semibold" >Status: <span className="text-blue-900">Pending</span></h1>
+                    <button className="text-white bg-blue-500 hover:bg-blue-600 hover:cursor-pointer py-2 px-3 rounded-xl">Edit</button>
+                    <button className="text-white bg-red-500  hover:bg-red-600 hover:cursor-pointer px-3 rounded-xl">Cancel</button>
+                </div>
+                <div className="flex bg-gray-200 rounded sm:text-xl m-5 p-5 justify-center">
+                    <h1 className="pr-4 font-semibold" >Flavor: <span className="text-green-900">Macha</span></h1>
+                    <h1 className="pr-4 font-semibold" >Size: <span className="text-green-900">Large</span></h1>
+                    <h1 className="pr-4 font-semibold" >Item: <span className="text-green-900">3</span></h1>
+                    <h1 className="pr-4 font-semibold" >Amount: <span className="text-green-900">200</span></h1>
+                    <h1 className="pr-4 font-semibold" >Status: <span className="text-blue-900">Pending</span></h1>
+                    <button className="text-white bg-blue-500 hover:bg-blue-600 hover:cursor-pointer py-2 px-3 rounded-xl">Edit</button>
+                    <button className="text-white bg-red-500  hover:bg-red-600 hover:cursor-pointer px-3 rounded-xl">Cancel</button>
+                </div>
+            </div>
+        </div>)
 }
 export default Orders;

@@ -1,5 +1,6 @@
 import {createBrowserRouter, Router, Navigate} from "react-router-dom";
 
+//components for user
 import HomeLayout from "./Layout/HomeLayout";
 import ShowMIlktea from "./Components/ShowMIlktea";
 import Cart from "./Components/Cart";
@@ -8,7 +9,17 @@ import Orders from "./Components/Orders";
 import UserAcount from "./Components/UserAccount"
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
+
+//components for admin
+import AdminLogin from "./Components/AdminLogin";
+import AdminDashboard from "./Components/AdminDashboard";
+import AdminLayout from "./Layout/AdminLayout";
+import AdminMilktea from "./Components/AdminMilkte";
+import AdminOrder from "./Components/AdminOrder";
+import AdminUsers from "./Components/AdminUsers";
+
 const routers = createBrowserRouter([
+    //for user route
     {
         path: '/',
         element: <HomeLayout/>,
@@ -42,7 +53,35 @@ const routers = createBrowserRouter([
                 element: <Signup/>
             },
         ]
+    },
+       //for admin route
+    {
+        path: '/admin',
+        element: <AdminLayout/>,
+        children:[
+            {
+                path: '/admin',
+                element: <AdminDashboard/>
+            },
+            {
+                path: '/admin/milktea',
+                element: <AdminMilktea/>
+            },
+            {
+                path: '/admin/orders',
+                element: <AdminOrder/>
+            },
+            {
+                path: '/admin/users',
+                element: <AdminUsers/>
+            },
+        ]
+    },
+    {
+        path: '/admin/login',
+        element: <AdminLogin/>
     }
+    
 
 ]);
 

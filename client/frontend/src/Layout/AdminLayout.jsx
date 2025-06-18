@@ -1,11 +1,15 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 import Menu from "../assets/menu.png";
 import setings from "../assets/account-settings.png"
 
-function HomeLayout() {
+function AdminLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [token, setToken] = useState(true);
+  
+  if(!token){
+    return <Navigate to='/admin/login'/>
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -15,32 +19,19 @@ function HomeLayout() {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <div className="flex-shrink-0 text-white font-bold font-monospace text-2xl">
-              MilkTea Order System
+              Welcome Admin
             </div>
 
             {/* Right section: User / Auth Links + Hamburger */}
             <div className="flex items-center space-x-4">
-              {token ? (
-                <>
-                  <div
-                    className="flex text-white font-semibold transition"
-                  >
+              
+                  <div className="flex text-white font-semibold transition">
                     <Link className=" mr-6 flex text-2xl hover:cursor-pointer" to='/user'><img className="w-9 h-9"  src={setings} alt="icon" /> Gerona Reven </Link>
                     <form action="">
                       <button className="bg-red-500  text-2xl pr-3 pl-3 rounded hover:cursor-pointer">Log out</button>
                     </form>
-                    
                   </div>
-                </>
-              ) : (
-                <>
-                <div className="grid sm:grid-cols-1 md:grid-cols-2">
-                    <Link className="text-white bg-blue-600 hover:bg-blue-700 py-1 px-3 text-sm mb-1 rounded sm:py-1 sm:px-5 sm:text-[15px] md:py-2 md:px-5 md:text-xl mr-3"to="/login">Login</Link>
-                    <Link  className="text-white bg-blue-600 hover:bg-blue-700 py-1 px-3 text-sm mb-1 rounded sm:py-1 sm:px-5 sm:text-[15px] md:py-2 md:px-5 md:text-xl mr-3" to="/signup">Signup</Link>  
-                </div>
-                </>
-              )}
-
+             
               {/* Hamburger Button (mobile only) */}
               <button
                 className="text-white md:hidden"
@@ -68,30 +59,21 @@ function HomeLayout() {
         className={`bg-white md:bg-transparent md:flex md:space-x-8 px-4 py-4 md:py-2 transition-all duration-300 ease-in-out justify-center ${
           menuOpen ? "block" : "hidden"
         } md:block`}
-      >
-        <Link
-          to="/"
-          className="text-xl block py-2 md:py-0 hover:text-green-700 font-semibold"
-        >
-          Home
+>
+        <Link to="/admin" className="text-xl block py-2 md:py-0 hover:text-green-700 font-semibold">
+          Dashboard
         </Link>
-        <Link
-          to="/carts"
-          className="text-xl block py-2 md:py-0 hover:text-green-600 font-semibold"
-        >
-          Cart
+
+        <Link to="/admin/milktea"  className="text-xl block py-2 md:py-0 hover:text-green-600 font-semibold" >
+          Milktea
         </Link>
-        <Link
-          to="/orders"
-          className="text-xl block py-2 md:py-0 hover:text-green-600 font-semibold"
-        >
+
+        <Link to="/admin/orders" className="text-xl block py-2 md:py-0 hover:text-green-600 font-semibold">
           Orders
         </Link>
-        <Link
-          to="/history"
-          className="text-xl block py-2 md:py-0 hover:text-green-600 font-semibold"
-        >
-          History
+
+        <Link to="/admin/users" className="text-xl block py-2 md:py-0 hover:text-green-600 font-semibold" >
+          Users
         </Link>
       </nav>
 
@@ -103,4 +85,4 @@ function HomeLayout() {
   );
 }
 
-export default HomeLayout;
+export default AdminLayout;
