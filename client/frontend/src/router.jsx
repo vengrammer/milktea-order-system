@@ -17,6 +17,10 @@ import AdminLayout from "./Layout/AdminLayout";
 import AdminMilktea from "./Components/AdminMilkte";
 import AdminOrder from "./Components/AdminOrder";
 import AdminUsers from "./Components/AdminUsers";
+import AdminHistory from "./Components/AdminHistory";
+
+//Notfound
+import NotFound from "./Components/Notfound";
 
 const routers = createBrowserRouter([
     //for user route
@@ -71,6 +75,10 @@ const routers = createBrowserRouter([
                 path: '/admin/orders',
                 element: <AdminOrder/>
             },
+             {
+                path: '/admin/history',
+                element: <AdminHistory/>
+            },
             {
                 path: '/admin/users',
                 element: <AdminUsers/>
@@ -80,6 +88,10 @@ const routers = createBrowserRouter([
     {
         path: '/admin/login',
         element: <AdminLogin/>
+    },
+    {
+        path: '*',
+        element:<NotFound/>
     }
     
 

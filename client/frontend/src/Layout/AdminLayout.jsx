@@ -68,6 +68,10 @@ function AdminLayout() {
           Milktea
         </Link>
 
+        <Link to="/admin/History" className="text-xl block py-2 md:py-0 hover:text-green-600 font-semibold">
+          History
+        </Link>
+
         <Link to="/admin/orders" className="text-xl block py-2 md:py-0 hover:text-green-600 font-semibold">
           Orders
         </Link>
