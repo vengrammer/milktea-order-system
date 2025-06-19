@@ -4,62 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    public function create(Request $request){
+        $adminData = $request->validate([
+            'fullname' => 'required|regex:/^[A-Za-z]+(?:[\s\-][A-Za-z]+)*$/',
+            'username' => 'required|unique:admin,username',
+            'password' => 'required|min:8|max:12',
+        ]);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        $admin = Admin::create([
+            'fullname' => $adminData['fullname'],
+            'username' => $adminData['username'],
+            'password' => Hash::make($adminData['password']),
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $token = $admin->createToken('main')->plainTextToken;
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Admin $admin)
-    {
-        //
-    }
+        return response()->json([
+            'admin' => $admin,
+            'token' => $token,
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Admin $admin)
-    {
-        //
     }
 }
