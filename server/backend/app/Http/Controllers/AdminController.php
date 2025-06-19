@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function create(Request $request){
+    public function createAdmin(Request $request){
         $adminData = $request->validate([
             'fullname' => 'required|regex:/^[A-Za-z]+(?:[\s\-][A-Za-z]+)*$/',
-            'username' => 'required|unique:admin,username',
+            'username' => 'required|unique:admins,username',
             'password' => 'required|min:8|max:12',
         ]);
 
@@ -21,12 +21,41 @@ class AdminController extends Controller
             'password' => Hash::make($adminData['password']),
         ]);
 
-        $token = $admin->createToken('main')->plainTextToken;
+        return response()->json([
+            'admin' => $admin,
+        ]);
+
+    }
+
+    public function adminLogin(Request $request){
+        $credentials = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        $admin = Admin::where('username', $credentials['username'])->first();
+
+        if(!$admin || !Hash::check($credentials['password'], $admin->password)){
+             return response()->json([
+            'message' => 'Invalid username or password'
+            ], 401);
+        }
+        
+        $token = $admin->createToken('admin-token')->plainTextToken;
 
         return response()->json([
+            'message' => 'Login successful',
             'admin' => $admin,
             'token' => $token,
         ]);
+    }
 
+    public function adminLogout(Request $request){
+         // Revoke the token that was used to authenticate the current request
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Logged out successfully'
+        ]);
     }
 }

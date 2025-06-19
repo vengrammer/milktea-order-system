@@ -8,4 +8,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/admin', [AdminController::class, 'create']);
+Route::post('/admin', [AdminController::class, 'createAdmin']);
+Route::post('/admin/login', [AdminController::class, 'adminLogin']);
+Route::post('/admin/logout', [AdminController::class, 'adminLogout'])->middleware('auth:sanctum');
