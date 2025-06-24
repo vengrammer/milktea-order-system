@@ -24,7 +24,6 @@ class AdminController extends Controller
         return response()->json([
             'admin' => $admin,
         ]);
-
     }
 
     public function adminLogin(Request $request){
@@ -37,7 +36,7 @@ class AdminController extends Controller
 
         if(!$admin || !Hash::check($credentials['password'], $admin->password)){
              return response()->json([
-            'message' => 'Invalid username or password'
+                'message' => 'Invalid username or password'
             ], 401);
         }
         
