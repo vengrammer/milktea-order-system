@@ -7,59 +7,49 @@ use Illuminate\Http\Request;
 
 class HistoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function show(Request $request){
+        $user = $request->user();
+        $history = History::with('user')
+            ->where('user_id', $user->id)
+            ->get();
+
+        return response()->json([
+            'history' => $history,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function deleteHistory(Request $request){
+        $history = History::findOrFail($request->id);
+        $history->delete();
+
+        return response()->json([
+            'message' => 'History succesfully deleted',
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function addToHistory(Request $request){
+        $history_data = $request->validate([
+            'user_id'     => 'required|exist:users.id',
+            'flavor'      => 'required|exists:milkteas,id',
+            'size'        => 'required|in:small,medium,large',
+            'quantity'    => 'required|integer|min:1',
+            'total_price' => 'required|numeric|min:0',
+            'status'      => 'required|in:canceled,declined,delivered',
+        ]); 
+        
+        $history = History::create([
+            'user_id' => $history_data['user_id'],
+            'flavor'  => $history_data['flavor'],
+            'size'    => $history_data['size'],
+            'quantity'=> $history_data['quantity'],
+            'total_price' => $history_data['total_price'],
+            'status' => $history_data['status'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(History $history)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(History $history)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, History $history)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(History $history)
-    {
-        //
+        
+        return response()->json([
+            'message' => 'History successfully added',
+            'history' => $history,
+        ]);
     }
 }
