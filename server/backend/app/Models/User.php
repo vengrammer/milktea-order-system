@@ -27,15 +27,15 @@ class User extends Authenticatable
         'phone_number',
     ];
 
-    public function carts(): HasMany{
+    public function cart(): HasMany{
         return $this->hasMany(Cart::class);
     }
 
-    public function histories(): HasMany{
+    public function history(): HasMany{
         return $this->hasMany(History::class);
     }
 
-    public function orders(): HasMany{
+    public function order(): HasMany{
         return $this->hasMany(Order::class);
     }
 

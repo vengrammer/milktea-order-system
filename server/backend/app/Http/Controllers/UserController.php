@@ -12,7 +12,7 @@ class UserController extends Controller
         $user_data = $request->validate([
         'name'         => 'required|regex:/^[A-Za-z]+(?:[\s\-][A-Za-z]+)*$/',
         'email'        => 'required|email|unique:users,email',
-        'password'     => 'required|min:4|max:8',
+        'password'     => 'required|min:4|max:9',
         'address'      => 'required',
         'phone_number' => 'required|regex:/^[0-9]{10,11}$/',
         ]);
@@ -34,7 +34,7 @@ class UserController extends Controller
         ],200);
     }
 
-    public function userlogin(Request $request){
+    public function userLogin(Request $request){
         $credentials = $request->validate([
             'email'     => 'required',
             'password'  => 'required',

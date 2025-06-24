@@ -19,11 +19,11 @@ class Cart extends Model
         'total_price',
     ];
 
-    public function users(): BelongsTo{
+    public function user(): BelongsTo{
         return $this->belongsTo(User::class);
     }
 
-    public function milkteas(): BelongsTo{
+    public function milktea(): BelongsTo{
         return $this->belongsTo(Milktea::class);
     }
 }

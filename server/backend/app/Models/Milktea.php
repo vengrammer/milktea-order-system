@@ -17,7 +17,7 @@ class Milktea extends Model
 
     ];
     
-    public function carts(): HasMany{
+    public function cart(): HasMany{
         return $this->hasMany(Cart::class);
     }
 }

@@ -7,59 +7,45 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function show(Request $request)
     {
-        //
+        $cart = Cart::with('milktea')->where('user_id', $request->user_id)->get();
+
+        return response()->json([
+            'cart' => $cart,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function deleteCart(Request $request)
     {
-        //
+        $cart = Cart::findOrFail($request->id);
+        $cart->delete();
+        return response()->json([
+            'message' => 'Cart successfully deleted',
+        ]);
+    }
+    public function addToCart(Request $request)
+    {
+        $cart_add = $request->validate([
+            'user_id'     => 'required|exists:users,id',
+            'milktea_id'  => 'required|exists:milkteas,id',
+            'size'        => 'required|in:small,medium,large',
+            'quantity'    => 'required|integer|min:1',
+            'total_price' => 'required|numeric|min:0',
+        ]);
+
+        $cart = Cart::create([
+           'user_id' => $cart_add['user_id'],
+           'milktea_id' => $cart_add['milktea_id'],
+           'size' => $cart_add['size'],
+           'quantity' => $cart_add['quantity'],
+           'total_price' => $cart_add['total_price'],
+        ]);
+
+        return response()->json([
+            'message' => 'Cart successfully added',
+            'cart' => $cart,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cart $cart)
-    {
-        //
-    }
 }
