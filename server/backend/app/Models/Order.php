@@ -12,6 +12,7 @@ class Order extends Model
         'milktea_id',
         'size',
         'quantity',
+        'address',
         'phone_number',
         'total_price',
         'status',

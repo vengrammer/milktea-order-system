@@ -14,7 +14,7 @@ class UserController extends Controller
         'email'        => 'required|email|unique:users,email',
         'password'     => 'required|min:4|max:9',
         'address'      => 'required',
-        'phone_number' => 'required|regex:/^[0-9]{10,11}$/',
+        'phone_number' => 'required|digits:11',
         ]);
 
         $user = User::create([
