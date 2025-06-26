@@ -4,10 +4,13 @@ import './index.css'
 import App from './App.jsx'
 import routers from './router.jsx'
 import { RouterProvider } from 'react-router-dom'
-import ContextProvider from './Context/ContextProvider.jsx'
+import { UserContextProvider } from './Context/UserContextProvider.jsx'
+import { AdminContextProvider } from './Context/AdminContextProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <ContextProvider>
-    <RouterProvider router={routers}/>
-  </ContextProvider>,
+  <AdminContextProvider>
+    <UserContextProvider>
+      <RouterProvider router={routers} />
+    </UserContextProvider>
+  </AdminContextProvider>
 )

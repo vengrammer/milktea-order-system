@@ -2,11 +2,11 @@ import { Outlet, Link } from "react-router-dom";
 import { useState } from "react";
 import Menu from "../assets/menu.png";
 import setings from "../assets/account-settings.png"
-import { useStateContext } from "../Context/ContextProvider";
+import { useUserContext } from "../Context/UserContextProvider";
 
 function HomeLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const {token} = useStateContext();
+  const {token} = useUserContext();
 
   return (
     <div className="min-h-screen flex flex-col">

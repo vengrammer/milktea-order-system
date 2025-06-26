@@ -1,12 +1,15 @@
 import { Outlet, Link, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Menu from "../assets/menu.png";
 import setings from "../assets/account-settings.png"
+import { useAdminContext } from "../Context/AdminContextProvider";
 
 function AdminLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [token, setToken] = useState(true);
-  
+
+  const {admin,token} = useAdminContext();
+
+
   if(!token){
     return <Navigate to='/admin/login'/>
   }
@@ -26,7 +29,7 @@ function AdminLayout() {
             <div className="flex items-center space-x-4">
               
                   <div className="flex text-white font-semibold transition">
-                    <Link className=" mr-6 flex text-2xl hover:cursor-pointer" to='/user'><img className="w-9 h-9"  src={setings} alt="icon" /> Gerona Reven </Link>
+                    <Link className=" mr-6 flex text-2xl hover:cursor-pointer" to='/user'><img className="w-9 h-9"  src={setings} alt="icon" /> {admin.fullname} </Link>
                     <form action="">
                       <button className="bg-red-500  text-2xl pr-3 pl-3 rounded hover:cursor-pointer">Log out</button>
                     </form>
