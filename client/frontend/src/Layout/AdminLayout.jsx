@@ -3,16 +3,39 @@ import { useEffect, useState } from "react";
 import Menu from "../assets/menu.png";
 import setings from "../assets/account-settings.png"
 import { useAdminContext } from "../Context/AdminContextProvider";
+import adminAxiosClient from "../Components/adminAxiosClient";
 
 function AdminLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const {admin,token,setAdmin,getToken} = useAdminContext();
 
-  const {admin,token} = useAdminContext();
-
+  useEffect(() => {
+      adminAxiosClient.get('/user')
+        .then(({ data }) => {
+          setAdmin(data);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Unauthenticated or error fetching admin:", error);
+          localStorage.removeItem('admin_token')
+        });
+    }, []); // This should be outside of .then()
 
   if(!token){
     return <Navigate to='/admin/login'/>
   }
+
+  function logout(e){
+    e.preventDefault();
+    
+      adminAxiosClient.post('admin/logout')
+        .then(({data}) => {
+          setAdmin({})
+          getToken(null)
+          console.log(data.message)
+      })
+  }
+  
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -30,8 +53,8 @@ function AdminLayout() {
               
                   <div className="flex text-white font-semibold transition">
                     <Link className=" mr-6 flex text-2xl hover:cursor-pointer" to='/user'><img className="w-9 h-9"  src={setings} alt="icon" /> {admin.fullname} </Link>
-                    <form action="">
-                      <button className="bg-red-500  text-2xl pr-3 pl-3 rounded hover:cursor-pointer">Log out</button>
+                    <form onSubmit={logout}>
+                      <button type="submit" className="bg-red-500  text-2xl pr-3 pl-3 rounded hover:cursor-pointer">Log out</button>
                     </form>
                   </div>
              

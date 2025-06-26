@@ -14,16 +14,17 @@ adminAxiosClient.interceptors.request.use((config) =>{
 
 adminAxiosClient.interceptors.response.use((response) => {
     return response
-}, (error) => {
-    try{
-        const {response} = error;
-        if(response.status === 401){
-            localStorage.removeItem('admin_token')
+    }, (error) => {
+        try{
+            const {response} = error;
+            if(response.status === 401){
+                localStorage.removeItem('admin_token')
+                console.log('dito naman pag d auth')
+            }
+        }catch(e){
+            console.log(e)
         }
-    }catch(e){
-        console.log(e)
-    }
-    throw error;
-})
+        throw error;
+    })
 
 export default adminAxiosClient;

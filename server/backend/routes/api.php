@@ -14,6 +14,8 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
+
 // Public user auth
 Route::prefix('user')->group(function () {
     Route::post('/signup', [UserController::class, 'userSignup']);

@@ -26,6 +26,7 @@ export function AdminContextProvider({ children }) {
       localStorage.setItem('admin_token', token);
     } else {
       localStorage.removeItem('admin_token');
+      console.log('ito pala')
     }
   }
 
