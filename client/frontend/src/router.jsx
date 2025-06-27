@@ -14,11 +14,11 @@ import Signup from "./Components/Signup";
 import AdminLogin from "./Components/AdminLogin";
 import AdminDashboard from "./Components/AdminDashboard";
 import AdminLayout from "./Layout/AdminLayout";
-import AdminMilktea from "./Components/AdminMilkte";
+import AdminMilktea from "./Components/AdminMilktea";
 import AdminOrder from "./Components/AdminOrder";
 import AdminUsers from "./Components/AdminUsers";
 import AdminHistory from "./Components/AdminHistory";
-
+import AdminAddMIlktea from "./Components/AdminAddMilktea";
 //Notfound
 import NotFound from "./Components/Notfound";
 
@@ -82,6 +82,10 @@ const routers = createBrowserRouter([
             {
                 path: '/admin/users',
                 element: <AdminUsers/>
+            },
+            {
+                path: '/admin/addmilktea',
+                element: <AdminAddMIlktea/>
             },
         ]
     },

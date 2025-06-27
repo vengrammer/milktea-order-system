@@ -8,11 +8,14 @@ import adminAxiosClient from "../Components/adminAxiosClient";
 function AdminLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const {admin,token,setAdmin,getToken} = useAdminContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+      setIsLoading(true);
       adminAxiosClient.get('/user')
         .then(({ data }) => {
           setAdmin(data);
+          setIsLoading(false);
           console.log(data);
         })
         .catch((error) => {
@@ -35,8 +38,6 @@ function AdminLayout() {
           console.log(data.message)
       })
   }
-  
-
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -52,7 +53,7 @@ function AdminLayout() {
             <div className="flex items-center space-x-4">
               
                   <div className="flex text-white font-semibold transition">
-                    <Link className=" mr-6 flex text-2xl hover:cursor-pointer" to='/user'><img className="w-9 h-9"  src={setings} alt="icon" /> {admin.fullname} </Link>
+                    <Link className=" mr-6 flex text-2xl hover:cursor-pointer" to='/user'><img className="w-9 h-9"  src={setings} alt="icon" />{isLoading ? <span>Loading....</span> : <span>{admin.fullname}</span>} </Link>
                     <form onSubmit={logout}>
                       <button type="submit" className="bg-red-500  text-2xl pr-3 pl-3 rounded hover:cursor-pointer">Log out</button>
                     </form>
