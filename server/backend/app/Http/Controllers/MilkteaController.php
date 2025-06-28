@@ -10,10 +10,14 @@ use Illuminate\Support\Facades\Storage;
 class MilkteaController extends Controller
 {
     public function show(){
-        $milktea = Milktea::all();
+        $milkteas = Milktea::all();
 
+        foreach ($milkteas as $milktea) {
+            $milktea->image = asset('storage/' . $milktea->image);
+        }
+        
         return response()->json([
-            'milktea' => $milktea,
+            'milktea' => $milkteas,
         ]);
     }
 

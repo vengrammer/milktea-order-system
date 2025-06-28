@@ -18,7 +18,7 @@ function AdminAddMIlktea(){
         setDisabled(true);
         const formData = new FormData();
         formData.append('flavor', flavor);
-        formData.append('image', image.current.files[0]); // ✅ Correct
+        formData.append('image', image.current.files[0]);
         formData.append('price_large', lprice);
         formData.append('price_medium', mprice);
         formData.append('price_small', sprice);
@@ -48,15 +48,13 @@ function AdminAddMIlktea(){
                     <h1 className="text-3xl font-bold text-center mb-6 text-gray-700">Add Milktea</h1>
 
                     {/* show error */}
-                    {errors && (
+                     {errors && 
                         <div className="bg-red-500 rounded p-2">
-                            <ul className="text-white px-2 list-disc list-inside">
-                            {Object.entries(errors).map(([field, messages], index) => (
-                                <li key={index}>{messages[0]}</li> // Only show the first message per field
+                            {Object.keys(errors).map(key => (
+                                <li className="text-white pl-5"  key={key}>{errors[key][0]}</li>
                             ))}
-                            </ul>
                         </div>
-                        )}
+                    }
 
                     <form onSubmit={addmilktea} encType="multipart/form-data"> 
 

@@ -14,7 +14,8 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
+//show Milktea in the guest user
+Route::get   ('user/milkteas',          [MilkteaController::class, 'show']);
 
 // Public user auth
 Route::prefix('user')->group(function () {
@@ -24,6 +25,7 @@ Route::prefix('user')->group(function () {
 
 // Protected user routes
 Route::middleware('auth:sanctum')->prefix('user')->group(function () {
+
     // Cart
     Route::get   ('/cart',        [CartController::class, 'show']);
     Route::post  ('/cart',        [CartController::class, 'addToCart']);
@@ -52,6 +54,7 @@ Route::prefix('admin')->group(function () {
 // Protected admin routes
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     // Milktea CRUD
+    Route::get   ('/milkteas',          [MilkteaController::class, 'show']);
     Route::post   ('/milkteas',          [MilkteaController::class, 'createMilktea']);
     Route::put    ('/milkteas/{milktea}',[MilkteaController::class, 'editMilktea']);
     Route::delete ('/milkteas/{milktea}',[MilkteaController::class, 'deleteMilktea']);
