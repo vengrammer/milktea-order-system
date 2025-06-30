@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {useUserContext} from "../Context/UserContextProvider";
+import Swal from 'sweetalert2'
 
 function ShowMilktea(){
 
    const [milktea, setMilkteas] = useState([]);
    const [loading, setLoading] = useState(false);
+
+   const {token} = useUserContext("dsadsd")
+
 
    useEffect(() => {
     getTheMilktea()
@@ -21,6 +26,26 @@ function ShowMilktea(){
       console.log(error)
       setLoading(false)
     }
+   }
+
+
+   function submitOrder(){
+    if(!token){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You must be login to order!",
+      });
+    }
+    
+   }
+
+   function submitAddToCart(){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You must be login to add to cart!",
+      });
    }
 
    
@@ -72,10 +97,10 @@ function ShowMilktea(){
                   </ul>
                   <p className="m-2">Available: <span className="text-green-600 font-semibold">{m.available? 'Available' : 'Not Available'}</span></p>
                   <div className="mt-4 space-y-2">
-                  <button className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
+                  <button onClick={submitAddToCart} className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
                     Add to cart
                   </button>
-                  <button className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                  <button onClick={submitOrder} className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
                     Order
                   </button>
               </div>

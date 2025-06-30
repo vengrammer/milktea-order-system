@@ -1,14 +1,36 @@
 import { Outlet, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Menu from "../assets/menu.png";
 import setings from "../assets/account-settings.png"
 import { useUserContext } from "../Context/UserContextProvider";
+import userAxiosClient from "../Components/userAxiosClient";
 
 function HomeLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const {token} = useUserContext();
+  const {token,getToken,user,setUser} = useUserContext();
 
-  return (
+  const [isloading,setIsLoading] = useState(false);
+
+  //show user when refresh
+
+  useEffect(() => {
+    if(token){
+        setIsLoading(true);
+        userAxiosClient.get('/user')
+          .then(({ data }) => {
+            setUser(data);
+            setIsLoading(false);
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error("Unauthenticated or error fetching user:", error);
+            localStorage.removeItem('admin_token')
+          });
+        }
+  }, []);
+
+
+  return (  
     <div className="min-h-screen flex flex-col">
       {/* Header */}
       <header className="bg-green-600 shadow-md">
@@ -26,7 +48,7 @@ function HomeLayout() {
                   <div
                     className="flex text-white font-semibold transition"
                   >
-                    <Link className=" mr-6 flex text-2xl hover:cursor-pointer" to='/user'><img className="w-9 h-9"  src={setings} alt="icon" /> Gerona Reven </Link>
+                    <Link className=" mr-6 flex text-2xl hover:cursor-pointer" to='/user'><img className="w-9 h-9"  src={setings} alt="icon" />{user.name}</Link>
                     <form action="">
                       <button className="bg-red-500  text-2xl pr-3 pl-3 rounded hover:cursor-pointer">Log out</button>
                     </form>
