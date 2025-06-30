@@ -1,9 +1,22 @@
 import darkchocolate from "../assets/Dark chocolate.png";
 import matcha from "../assets/matcha.png";
 import wintermelon from "../assets/wintermelon.png";
-
-
+import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../Context/UserContextProvider";
+import { useEffect } from "react";
 function Cart(){
+    const {token} = useUserContext();
+    const navigate = useNavigate();
+    
+      useEffect(() => {
+        if (!token) {
+          navigate('/');
+        }
+      }, [token, navigate]); // Only runs once on mount
+
+      if (!token) {
+        return null; // Avoid rendering anything while redirecting
+      }
     return(
      <>
        <div className="flex flex-col md:flex-row items-center justify-between max-w-screen px-5 my-8">

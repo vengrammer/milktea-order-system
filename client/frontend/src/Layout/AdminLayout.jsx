@@ -22,7 +22,7 @@ function AdminLayout() {
           console.error("Unauthenticated or error fetching admin:", error);
           localStorage.removeItem('admin_token')
         });
-    }, []); // This should be outside of .then()
+    }, []);
 
   if(!token){
     return <Navigate to='/admin/login'/>

@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { useState } from "react";
-function signup() {
+import {useUserContext} from "../Context/UserContextProvider";
+function Signup() {
+
+  
+  const {token,setUser,getToken} = useUserContext();
+  const navigate = useNavigate();
+  //not show the login page if the user is login
+  if(!token){
+    navigate('/');
+  }
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -71,4 +80,4 @@ function signup() {
   );
 }
 
-export default signup;
+export default Signup;

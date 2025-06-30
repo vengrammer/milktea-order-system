@@ -1,5 +1,20 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../Context/UserContextProvider";
 
 function Orders(){
+    const {token} = useUserContext();
+    const navigate = useNavigate();
+    
+      useEffect(() => {
+        if (!token) {
+          navigate('/');
+        }
+      }, [token, navigate]); // Only runs once on mount
+
+      if (!token) {
+        return null; // Avoid rendering anything while redirecting
+      }
     return(
          <div className="w-full-screen">
             <div className="w-full-screen max-h-screen h-full sm:w-full md:w-200 lg:w-300 bg-gray-300 m-auto sm:rounded-2xl text-center p-2 mt-10" >

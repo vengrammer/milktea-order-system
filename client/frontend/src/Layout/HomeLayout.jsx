@@ -4,6 +4,7 @@ import Menu from "../assets/menu.png";
 import setings from "../assets/account-settings.png"
 import { useUserContext } from "../Context/UserContextProvider";
 import userAxiosClient from "../Components/userAxiosClient";
+import Swal from "sweetalert2";
 
 function HomeLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -28,7 +29,6 @@ function HomeLayout() {
           });
         }
   }, []);
-
 
   return (  
     <div className="min-h-screen flex flex-col">
@@ -64,23 +64,31 @@ function HomeLayout() {
                 </>
               )}
 
-              {/* Hamburger Button (mobile only) */}
+            {/* Hamburger Button (mobile only) */}
+            {/*show only when user is authenticated */}
+            {token && 
+             <>
               <button
-                className="text-white md:hidden"
-                onClick={() => setMenuOpen(!menuOpen)}
-              >
-                {menuOpen ? (
-                  <div className="w-10 h-10 flex items-center justify-center bg-red-500 rounded">
-                    X
-                  </div>
-                ) : (
-                  <img
-                    src={Menu}
-                    alt="menu"
-                    className="w-8 h-8 hover:cursor-pointer"
-                  />
-                )}
+                  className="text-white md:hidden"
+                  onClick={() => setMenuOpen(!menuOpen)}
+                >
+                  {menuOpen ? (
+                    <div className="w-10 h-10 flex items-center justify-center bg-red-500 rounded">
+                      X
+                    </div>
+                  ) : (
+                    <img
+                      src={Menu}
+                      alt="menu"
+                      className="w-8 h-8 hover:cursor-pointer"
+                    />
+                  )}
               </button>
+             </>  
+            }
+
+
+
             </div>
           </div>
         </div>
@@ -98,8 +106,11 @@ function HomeLayout() {
         >
           Home
         </Link>
-        <Link
-          to="/carts"
+        {/* Optional to show */}
+        {token &&
+        <>
+          <Link
+          to="/carts" 
           className="text-xl block py-2 md:py-0 hover:text-green-600 font-semibold"
         >
           Cart
@@ -116,7 +127,10 @@ function HomeLayout() {
         >
           History
         </Link>
+        </>}
+        
       </nav>
+
 
       {/* Main Content */}
       <main className="flex-grow bg-gray-100 transition">

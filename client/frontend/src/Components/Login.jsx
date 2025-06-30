@@ -1,17 +1,30 @@
 import { Link, useNavigate} from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import userAxiosClient from "./userAxiosClient";
 import {useUserContext} from "../Context/UserContextProvider";
 
 function Login() {
 
+  
+
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors,setErrors] =  useState("");
+  const [errors,setErrors] =  useState('');
 
-  const {setUser,getToken} = useUserContext();
+  const {token,setUser,getToken} = useUserContext();
   const navigate = useNavigate();
+
+    {/*show home page if the user is login*/}
+    useEffect(() => {
+          if (token) {
+            navigate('/');
+          }
+        }, [token, navigate]); // Only runs once on mount
+  
+        if (token) {
+          return null; // Avoid rendering anything while redirecting
+        }
 
   function handleLogin(e){
     e.preventDefault();
@@ -33,9 +46,16 @@ function Login() {
       })
       .catch(err => {
         const response = err.response;
-        if(response && response.status === 422){
-          setErrors(response.data.error)
+        if(response) {
+          if(response.status === 422){
+            setErrors(response.data.errors)
+            setLoading(false);
+          }else if(response.status === 401){
+            setErrors({message: [response.data.message]});
+            setLoading(false);
+          }
         }
+        
       })
   }
   return (
@@ -45,11 +65,14 @@ function Login() {
 
           <h1 className="text-3xl font-bold text-center mb-6 text-gray-700">Login</h1>
 
-          {errors && 
-            <div className="bg-red-500 rounded p-2">
-              <p className="text-white p-2">{errors}</p>
-            </div>
-          }
+                  {/*SHOW ERRORS*/}
+                  {errors && (
+                      <div className="bg-red-500 rounded p-2">
+                        {Object.keys(errors).map((key) => (
+                          <li className="text-white pl-5" key={key}>{errors[key][0]}</li>
+                        ))}
+                      </div>
+                    )}
           <form onSubmit={handleLogin}>
             <div className="mb-4 text-left">
               <label htmlFor="username" className="block text-gray-600 mb-2">

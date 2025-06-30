@@ -37,7 +37,6 @@ function ShowMilktea(){
         text: "You must be login to order!",
       });
     }
-    
    }
 
    function submitAddToCart(){

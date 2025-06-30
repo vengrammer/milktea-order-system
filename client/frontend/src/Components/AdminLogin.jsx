@@ -25,29 +25,34 @@ function AdminLogin() {
         .then(({data}) => {
         setAdmin(data.admin)
         getToken(data.token)
-        console.log({data})
-        return(
-          navigate('/admin')
-      )
+        navigate('/admin')
+      })
       .catch(err => {
-            const response = err.response;
-            if(response && response.status === 401){
-                setErrors(response.data.error)
-            }
-        }) 
-    })
+        const response = err.response;
+        if(response) {
+          if(response.status === 422){
+            setErrors(response.data.errors)
+          }else if(response.status === 401){
+            setErrors({ message: [response.data.message] });
+          }
+        }
+      });
   }
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <h1 className="text-3xl font-bold text-center mb-6 text-gray-700">Admin Login</h1>
+                  {/*SHOW ERRORS*/}
+                  {errors && (
+                      <div className="bg-red-500 rounded p-2">
+                        {Object.keys(errors).map((key) => (
+                          <li className="text-white pl-5" key={key}>{errors[key][0]}</li>
+                        ))}
+                      </div>
+                    )}
 
-          {errors && 
-            <div className="bg-red-500 rounded p-2">
-              <p className="text-white p-2">{errors}</p>
-            </div>
-          }
+
 
           <form onSubmit={Login}>
             <div className="mb-4 text-left">
