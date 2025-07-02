@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {useUserContext} from "../Context/UserContextProvider";
 import Swal from 'sweetalert2'
-
+import {useNavigate} from "react-router-dom"
 function ShowMilktea(){
 
    const [milktea, setMilkteas] = useState([]);
    const [loading, setLoading] = useState(false);
 
-   const {token} = useUserContext("dsadsd")
-
-
+  const navigate = useNavigate()
+   const {token,user} = useUserContext()
    useEffect(() => {
     getTheMilktea()
    },[])
@@ -36,20 +35,26 @@ function ShowMilktea(){
         title: "Oops...",
         text: "You must be login to order!",
       });
+      return null;
     }
+    
    }
 
-   function submitAddToCart(){
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "You must be login to add to cart!",
-      });
+   function submitAddToCart(item){
+      if(!token){
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "You must be login to add to cart!",
+        });
+        return;
+      }
+      navigate("/add-to-cart", { state: { milktea: item , user: user} });
    }
 
-   
     return(
       <>
+
       {loading ? 
             <div className="text-center justify-center align-center">
                 <h1 className="text-2xl">Loading...</h1>
@@ -96,7 +101,7 @@ function ShowMilktea(){
                   </ul>
                   <p className="m-2">Available: <span className="text-green-600 font-semibold">{m.available? 'Available' : 'Not Available'}</span></p>
                   <div className="mt-4 space-y-2">
-                  <button onClick={submitAddToCart} className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
+                  <button onClick={() => submitAddToCart(m)} className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
                     Add to cart
                   </button>
                   <button onClick={submitOrder} className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
@@ -105,11 +110,8 @@ function ShowMilktea(){
               </div>
             </div>
           </div> ))}
-                     
         </div>
-
-        </>
-      }
+        </>} 
       </>
     )
 }

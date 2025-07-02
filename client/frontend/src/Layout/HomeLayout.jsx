@@ -30,6 +30,17 @@ function HomeLayout() {
         }
   }, []);
 
+  function logout(e){
+    e.preventDefault();
+    
+      userAxiosClient.post('user/logout')
+        .then(({data}) => {
+          setUser({})
+          getToken(null)
+          console.log(data.message)
+      })
+  }
+
   return (  
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -49,8 +60,8 @@ function HomeLayout() {
                     className="flex text-white font-semibold transition"
                   >
                     <Link className=" mr-6 flex text-2xl hover:cursor-pointer" to='/user'><img className="w-9 h-9"  src={setings} alt="icon" />{user.name}</Link>
-                    <form action="">
-                      <button className="bg-red-500  text-2xl pr-3 pl-3 rounded hover:cursor-pointer">Log out</button>
+                    <form onSubmit={logout}>
+                      <button type="submit" className="bg-red-500  text-2xl pr-3 pl-3 rounded hover:cursor-pointer">Log out</button>
                     </form>
                     
                   </div>

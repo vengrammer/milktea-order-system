@@ -1,26 +1,17 @@
-import { Link,useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import {useUserContext} from "../Context/UserContextProvider";
-function Signup() {
+import { useState } from "react";
 
-  
-  const {token} = useUserContext();
-  const navigate = useNavigate();
-   {/*show home page if the user is login*/}
-      useEffect(() => {
-            if (token) {
-              navigate('/');
-            }
-          }, [token, navigate]); // Only runs once on mount
-    
-          if (token) {
-            return null; // Avoid rendering anything while redirecting
-          }
+function UserAddToCart({ milktea,user}) {
+  const [size, setSize] = useState("small");
+  const [quantity, setQuantity] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+
   return (
+
     <>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-          <h1 className="text-3xl font-bold text-center mb-6 text-gray-700">Sign up</h1>
+          <h1 className="text-3xl font-bold text-center mb-6 text-gray-700">Add to Cart</h1>
           <form>
             <div className="mb-4 text-left">
               <label htmlFor="fullname" className="block text-gray-600 mb-2">
@@ -72,18 +63,13 @@ function Signup() {
             >
                 Sign up
             </button>
-
-            <p className="mt-4 text-center text-sm text-gray-600">
-              Already have an acount?{" "}
-              <Link to="/login" className="text-blue-600 hover:underline">
-                Login
-              </Link>
-            </p>
           </form>
         </div>
       </div>
     </>
-  );
+
+);
+
 }
 
-export default Signup;
+export default UserAddToCart;

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import adminAxiosClient from "./adminAxiosClient";
-
+import UserAddToCart from "./UserAddToCart";
 function AdminAddMIlktea(){
 
     const image = useRef()
@@ -9,10 +9,10 @@ function AdminAddMIlktea(){
     const [mprice, setMprice] = useState()
     const [sprice, setSprice] = useState()
     const [available, setAvailable] = useState(true)
-
     const [disabled, setDisabled] = useState(false);
-
     const [errors, setErrors] = useState(null);
+
+
     function addmilktea(e){
         e.preventDefault();
         setDisabled(true);
@@ -39,10 +39,11 @@ function AdminAddMIlktea(){
                 }
             })
     }
+
+    
     
     return(
          <>
-         
             <div className="flex items-center justify-center min-h-screen bg-gray-100">  
                 <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
                     <h1 className="text-3xl font-bold text-center mb-6 text-gray-700">Add Milktea</h1>

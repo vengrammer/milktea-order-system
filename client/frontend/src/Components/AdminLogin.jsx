@@ -11,12 +11,14 @@ function AdminLogin() {
   const {setAdmin,getToken} = useAdminContext();
   const [errors, setErrors] = useState('')
 
+  const [isloading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
   
  
   function Login(e){
     e.preventDefault();
-
+    setIsLoading(true)
     const credentials = {
       username: username,
       password: password,
@@ -25,6 +27,7 @@ function AdminLogin() {
         .then(({data}) => {
         setAdmin(data.admin)
         getToken(data.token)
+        setIsLoading(true)
         navigate('/admin')
       })
       .catch(err => {
@@ -32,8 +35,10 @@ function AdminLogin() {
         if(response) {
           if(response.status === 422){
             setErrors(response.data.errors)
+            setIsLoading(false)
           }else if(response.status === 401){
             setErrors({ message: [response.data.message] });
+           setIsLoading(false)
           }
         }
       });
@@ -62,6 +67,7 @@ function AdminLogin() {
               <input
                 type="text"
                 name="username"
+                disabled={isloading}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -75,6 +81,7 @@ function AdminLogin() {
               <input
                 type="password"
                 name="password"
+                disabled={isloading}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -83,9 +90,10 @@ function AdminLogin() {
 
             <button
               type="submit"
+              disabled={isloading}
               className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-200"
             >
-              Login
+              {isloading? <span>Logging in...</span> : <span>Login</span>}
             </button>
           </form>
         </div>
