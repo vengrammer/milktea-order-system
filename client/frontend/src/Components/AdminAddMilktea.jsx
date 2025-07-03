@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import adminAxiosClient from "./adminAxiosClient";
-import UserAddToCart from "./UserAddToCart";
 function AdminAddMIlktea(){
 
     const image = useRef()

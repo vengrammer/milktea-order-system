@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {useUserContext} from "../Context/UserContextProvider";
 import Swal from 'sweetalert2'
-import {useNavigate} from "react-router-dom"
+
 function ShowMilktea(){
 
-   const [milktea, setMilkteas] = useState([]);
-   const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate()
-   const {token,user} = useUserContext()
-   useEffect(() => {
+  const [milktea, setMilkteas] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [addToCart, setAddToCart] = useState(false);
+  const [milkteaSelected, setMilkteaSelected] = useState([]);
+  const {token} = useUserContext()
+  useEffect(() => {
     getTheMilktea()
-   },[])
+  },[])
 
    async function getTheMilktea(){
     setLoading(true)
@@ -40,7 +40,7 @@ function ShowMilktea(){
     
    }
 
-   function submitAddToCart(item){
+   function submitAddToCart(m){
       if(!token){
         Swal.fire({
           icon: "error",
@@ -49,9 +49,9 @@ function ShowMilktea(){
         });
         return;
       }
-      navigate("/add-to-cart", { state: { milktea: item , user: user} });
+      setAddToCart(true);
+      setMilkteaSelected(m)
    }
-
     return(
       <>
 
@@ -81,9 +81,73 @@ function ShowMilktea(){
               </button>
             </form>
           </div>
-          {/*show MIlktea */}
+          
+         
+
           
           <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center px-4 ">
+            {/*show AddToCart*/}
+              {addToCart && <div className=" bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+              <h1 className="text-xl font-bold text-center mb-3 text-gray-700">Add to Cart</h1>
+              <img
+                src={milkteaSelected.image}
+                alt="milkteaImage"
+                className="w-full h-48 object-cover rounded-lg"
+                />
+              <form>
+                <div className="mb-4 text-left">
+                  <label htmlFor="fullname" className="block text-gray-600 mb-2">
+                    Fullname
+                  </label>
+                  <input
+                    type="text"
+                    name="fullname"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                <div className="mb-4 text-left">
+                  <label htmlFor="address" className="block text-gray-600 mb-2">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    name="address"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                <div className="mb-4 text-left">
+                  <label htmlFor="number" className="block text-gray-600 mb-2">
+                    Phone number
+                  </label>
+                  <input
+                    type="text"
+                    name="number"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                <div className="mb-4 text-left">
+                  <label htmlFor="email" className="block text-gray-600 mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-200"
+                >
+                    Submit
+                </button>
+              </form>
+              </div>}
+               {/*show MIlktea */}
             {milktea.map(m => 
             (<div key={m.id} className="bg-white shadow-lg rounded-2xl overflow-hidden w-[260px] max-w-sm p-4 hover:shadow-xl transition-shadow">
               <img
@@ -110,7 +174,9 @@ function ShowMilktea(){
               </div>
             </div>
           </div> ))}
+          
         </div>
+        
         </>} 
       </>
     )

@@ -9,7 +9,6 @@ import Orders from "./Components/Orders";
 import UserAcount from "./Components/UserAccount"
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
-import UserAddToCart from "./Components/UserAddToCart";
 
 //components for admin
 import AdminLogin from "./Components/AdminLogin";
@@ -57,10 +56,7 @@ const routers = createBrowserRouter([
                 path: '/signup',
                 element: <Signup/>
             },
-            {
-                path: '/add-to-cart',
-                element: <UserAddToCart/>
-            },
+            
         ]
     },
        //for admin route
