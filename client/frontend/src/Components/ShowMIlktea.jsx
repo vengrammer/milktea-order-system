@@ -2,14 +2,22 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {useUserContext} from "../Context/UserContextProvider";
 import Swal from 'sweetalert2'
+import userAxiosClient from "./userAxiosClient";
 
 function ShowMilktea(){
 
   const [milktea, setMilkteas] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [addToCart, setAddToCart] = useState(false);
+  const {token,user} = useUserContext()
+  //for AddToCart
+  const [addToCart, setAddToCart] = useState(false); 
   const [milkteaSelected, setMilkteaSelected] = useState([]);
-  const {token} = useUserContext()
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [sizePriceSelected,setSizePriceSelected] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [sizeSelected, setSizeSelected] = useState(0);
+  //show the milktea
+  
   useEffect(() => {
     getTheMilktea()
   },[])
@@ -40,7 +48,7 @@ function ShowMilktea(){
     
    }
 
-   function submitAddToCart(m){
+   function attemptAddToCart(m){
       if(!token){
         Swal.fire({
           icon: "error",
@@ -51,7 +59,65 @@ function ShowMilktea(){
       }
       setAddToCart(true);
       setMilkteaSelected(m)
+      setSizePriceSelected(m.price_large);
+      setTotalPrice(m.price_large);
+      setQuantity(1);
    }
+
+   function decreaseQuantity(e) {
+    e.preventDefault();
+    if(quantity > 1) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      setTotalPrice(newQuantity * sizePriceSelected);
+    }
+   }
+    function increaseQuantity(e) {
+      e.preventDefault();
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+      setTotalPrice(newQuantity * sizePriceSelected);
+   }
+
+   function submitAddToCart(e){
+    e.preventDefault();
+    const data = {
+      user_id: user.id,
+      milktea_id: milkteaSelected.id,
+      size: sizeSelected,
+      quantity: quantity,
+      total_price: totalPrice
+    }
+    
+    userAxiosClient.post('user/cart', data)
+      .then(({data}) => {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Milktea added to cart successfully!",
+        });
+        setAddToCart(false);
+        setMilkteaSelected([]);
+        setSizeSelected(0);
+        setTotalPrice(0);
+        setQuantity(1);
+      }
+      )
+      .catch(err => {
+        const response = err.response;
+        console.log(response)
+        if(response && response.status === 422){
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+          });
+        }
+      })
+    }
+
+
+   
     return(
       <>
 
@@ -94,55 +160,43 @@ function ShowMilktea(){
                 alt="milkteaImage"
                 className="w-full h-48 object-cover rounded-lg"
                 />
-              <form>
-                <div className="mb-4 text-left">
-                  <label htmlFor="fullname" className="block text-gray-600 mb-2">
-                    Fullname
-                  </label>
-                  <input
-                    type="text"
-                    name="fullname"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              <form onSubmit={((e)=> submitAddToCart(e))} className="space-y-4">
+                <label htmlFor="flavor" className="text-xl font-semibold text-gray-800">{milkteaSelected.flavor}</label>
+                            <select 
+                                name="price" 
+                                id="price"
+                                value={sizeSelected}
+                                onChange={(e) => {
+                                    const selectedSize = e.target.value;
+                                    let price = 0;
+                                    if (selectedSize === "large") price = milkteaSelected.price_large;
+                                    else if (selectedSize === "medium") price = milkteaSelected.price_medium;
+                                    else if (selectedSize === "small") price = milkteaSelected.price_small;
+                                    setSizeSelected(selectedSize);
+                                    setSizePriceSelected(price);
+                                    setTotalPrice(price * quantity);
+                                }}
+                                className="w-full px-2 m-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <option value="large">Large {milkteaSelected.price_large}</option>
+                                    <option value="medium">Medium {milkteaSelected.price_medium}</option>
+                                    <option value="small">Small {milkteaSelected.price_small}</option>
+                            </select>
+
+                <label htmlFor="quantity" className="text-xl font-semibold text-gray-800 mt-4">Quantity</label>
+                <div className="flex items-center space-x-2">
+                  <button onClick={(e) => decreaseQuantity(e)} className="px-3 py-1 bg-gray-300 text-black rounded-l hover:bg-gray-400">
+                  -
+                  </button>
+                  <input type="number" value={quantity} readOnly
+                    className="w-12 text-center border border-gray-300"
                   />
+                  <button onClick={(e) => increaseQuantity(e)} className="px-3 py-1 bg-gray-300 text-black rounded-r hover:bg-gray-400" >
+                    +
+                  </button>
                 </div>
 
-                <div className="mb-4 text-left">
-                  <label htmlFor="address" className="block text-gray-600 mb-2">
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    name="address"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-
-                <div className="mb-4 text-left">
-                  <label htmlFor="number" className="block text-gray-600 mb-2">
-                    Phone number
-                  </label>
-                  <input
-                    type="text"
-                    name="number"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-
-                <div className="mb-4 text-left">
-                  <label htmlFor="email" className="block text-gray-600 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-200"
-                >
+                <p className="text-xl font-semibold text-gray-800 mt-4 m-3">Total Price: {totalPrice} pesos</p>
+                <button type="submit"  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-200">
                     Submit
                 </button>
               </form>
@@ -165,7 +219,7 @@ function ShowMilktea(){
                   </ul>
                   <p className="m-2">Available: <span className="text-green-600 font-semibold">{m.available? 'Available' : 'Not Available'}</span></p>
                   <div className="mt-4 space-y-2">
-                  <button onClick={() => submitAddToCart(m)} className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
+                  <button onClick={() => attemptAddToCart(m)} className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
                     Add to cart
                   </button>
                   <button onClick={submitOrder} className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
