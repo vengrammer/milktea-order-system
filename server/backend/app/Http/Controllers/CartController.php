@@ -7,14 +7,30 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function show(Request $request)
+   public function show(Request $request)
     {
-        $cart = Cart::with('milktea')->where('user_id', $request->user_id)->get();
+        $carts = Cart::with('milktea')->where('user_id', $request->user_id)->get();
+
+        $result = $carts->map(function ($cart) {
+            return [
+                'id' => $cart->id,
+                'size' => $cart->size,
+                'quantity' => $cart->quantity,
+                'total_price' => $cart->total_price,
+                'milktea' => [
+                    'id' => $cart->milktea->id,
+                    'flavor' => $cart->milktea->flavor,
+                    'price' => $cart->milktea->price,
+                    'image' => asset('storage/' . $cart->milktea->image),
+                ]
+            ];
+        });
 
         return response()->json([
-            'cart' => $cart,
+            'cart' => $result,
         ]);
     }
+
 
     public function deleteCart(Request $request)
     {

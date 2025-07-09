@@ -27,7 +27,7 @@ Route::prefix('user')->group(function () {
 Route::middleware('auth:sanctum')->prefix('user')->group(function () {
 
     // Cart
-    Route::get   ('/cart',        [CartController::class, 'show']);
+    Route::get   ('/cart/show/{user_id}',        [CartController::class, 'show']);
     Route::post  ('/cart',        [CartController::class, 'addToCart']);
     Route::delete('/cart/{item}', [CartController::class, 'deleteCart']);
 
