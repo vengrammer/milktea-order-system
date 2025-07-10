@@ -12,18 +12,21 @@ function Cart(){
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
 
-   
-    
+
     //redirect the user to home if not logged in
     useEffect(() => {
         if (!token) {
           navigate('/');
         }
       }, [token, navigate]); // Only runs once on mount
+      
       //Show the milktea in the cart of the user
-      useEffect(()=> {
-        getTheMilktea()
-      },[])
+      useEffect(() => {
+        if (user?.id) {
+          getTheMilktea();
+        }
+      }, [user]);
+
 
       async function getTheMilktea(){
         setLoading(true)
@@ -77,12 +80,9 @@ function Cart(){
                 />
                 <div className="mt-4">
                   <h2 className="text-xl font-semibold text-gray-800">{m.milktea?.flavor}</h2>
-                  <p className="text-gray-600 mt-2">Price:</p>
-                  <ul className="text-gray-700 ml-4 list-disc">
-                    <li>Large - {m.milktea?.price_large} pesos</li>
-                    <li>Medium - {m.milktea?.price_medium} pesos</li>
-                    <li>Small - {m.milktea?.price_small} pesos</li>
-                  </ul>
+                  <p className="text-gray-600 mt-2">Size: {m.size}</p>
+                  <p className="text-gray-600 mt-2">Quantity: {m.quantity}</p>
+                  <p className="text-gray-600 mt-2">Total Price: {m.total_price}</p>
                   <p className="m-2">
                     Available: <span className="text-green-600 font-semibold">
                       {m.milktea?.available ? 'Available' : 'Not Available'}
@@ -90,10 +90,10 @@ function Cart(){
                   </p>
                   <div className="mt-4 space-y-2">
                     <button className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
-                      Add to cart
+                      Order
                     </button>
                     <button className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-                      Order
+                      Remove to cart
                     </button>
                   </div>
                 </div>
