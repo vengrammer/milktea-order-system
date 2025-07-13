@@ -3,6 +3,7 @@ import axios from "axios";
 import {useUserContext} from "../Context/UserContextProvider";
 import Swal from 'sweetalert2'
 import userAxiosClient from "./userAxiosClient";
+import ModalForOrder from "./ModalForOrder";
 
 function ShowMilktea(){
 
@@ -16,6 +17,9 @@ function ShowMilktea(){
   const [sizePriceSelected,setSizePriceSelected] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [sizeSelected, setSizeSelected] = useState(0);
+
+  //for ModalForOrder
+  const [modalForOrder, setModalForOrder] = useState(false);
   //show the milktea
   
   useEffect(() => {
@@ -37,6 +41,7 @@ function ShowMilktea(){
 
 
    function submitOrder(){
+    setModalForOrder(true);
     if(!token){
       Swal.fire({
         icon: "error",
@@ -120,7 +125,8 @@ function ShowMilktea(){
    
     return(
       <>
-
+       {modalForOrder && <ModalForOrder cartData={milkteaSelected} onClose={() => setModalForOrder(false)}/>}
+       
       {loading ? 
             <div className="text-center justify-center align-center">
                 <h1 className="text-2xl">Loading...</h1>
@@ -228,10 +234,8 @@ function ShowMilktea(){
               </div>
             </div>
           </div> ))}
-          
         </div>
-        
-        </>} 
+        </>}
       </>
     )
 }
