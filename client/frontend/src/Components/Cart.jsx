@@ -44,8 +44,37 @@ function Cart(){
       if (!token) {
         return null; // Avoid rendering anything while redirecting
       }
+    //remove item from cart
+    function removeToCart(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, remove it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              userAxiosClient.delete(`http://127.0.0.1:8000/api/user/cart/${id}`, {
+              }).then(() => {
+                Swal.fire(
+                  'Removed!',
+                  'Your item has been removed from the cart.',
+                  'success'
+                );
+                getTheMilktea(); // Refresh the cart items
+              }).catch(err => {
+                Swal.fire(
+                  'Error!',
+                  'There was an error removing the item from the cart.',
+                  'error'
+                );
+              });
+            }
+          });
+    }
 
-      
     return(
      <>
        <div className="flex flex-col md:flex-row items-center justify-between max-w-screen px-5 my-8">
@@ -92,7 +121,7 @@ function Cart(){
                     <button className="w-full bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
                       Order
                     </button>
-                    <button className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                    <button className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition" onClick={() => removeToCart(m.id)}>
                       Remove to cart
                     </button>
                   </div>

@@ -53,8 +53,6 @@ function ModalForOrder({ cartData, onClose }) {
 
             onClose(); // Close the modal after confirmation
         }
-        
-
     })
     return(
         <>

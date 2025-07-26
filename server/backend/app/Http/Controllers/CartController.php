@@ -32,9 +32,9 @@ class CartController extends Controller
     }
 
 
-    public function deleteCart(Request $request)
+    public function deleteCart($id)
     {
-        $cart = Cart::findOrFail($request->id);
+        $cart = Cart::findOrFail($id);
         $cart->delete();
         return response()->json([
             'message' => 'Cart successfully deleted',
